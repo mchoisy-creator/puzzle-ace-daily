@@ -120,33 +120,32 @@ const Index = () => {
   const boardRef = useRef<HTMLDivElement>(null);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background flex flex-col">
       <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-3">
+        <div className="container mx-auto px-4 py-2">
           <EuropeEchecsLogo />
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-6">
-
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 max-w-7xl mx-auto">
-          <div className="lg:col-span-3 space-y-4">
+      <main className="container mx-auto px-4 py-4 flex-1">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 max-w-7xl mx-auto h-full">
+          <div className="lg:col-span-3 space-y-3">
             <div ref={boardRef}>
               <ChessBoardPanel fen={game.fen()} onMove={makeMove} currentMoveIndex={currentMoveIndex} totalMoves={PUZZLE.solution.length} isSolved={isSolved} isFailed={isFailed} onRestart={restart} onHint={useHint} onShowSolution={revealSolution} showSolution={showSolution} playerTurn={playerTurn} />
             </div>
             <PositionActionsMenu fen={game.fen()} boardRef={boardRef} />
           </div>
-          <div className="lg:col-span-2 space-y-3">
+          <div className="lg:col-span-2 space-y-2">
             <StatsCard streak={streak} totalSolved={totalSolved} />
             <ProgressionBadges streak={streak} totalSolved={totalSolved} />
-            <PuzzleInfoCard date={PUZZLE.date} description={PUZZLE.description} playerWhite={PUZZLE.playerWhite} playerBlack={PUZZLE.playerBlack} event={PUZZLE.event} playerTurn={playerTurn} />
+            <PuzzleInfoCard date={PUZZLE.date} description={PUZZLE.description} playerTurn={playerTurn} />
             <MoveHistoryCard moves={moveHistory} currentMoveIndex={currentMoveIndex} />
             <HintsCard hints={PUZZLE.hints} hintsUsed={hintsUsed} onUseHint={useHint} isSolved={isSolved} />
             {(isSolved || showSolution) && (
               <>
-                <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="card-chess text-center">
-                  <div className="text-sm text-muted-foreground uppercase tracking-wider mb-1">{showSolution && !isSolved ? 'Score Final' : 'Votre Score'}</div>
-                  <div className="text-4xl font-bold text-primary">{showSolution && !isSolved ? 0 : 100 - hintsUsed * 15} pts</div>
+                <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="rounded-xl bg-gradient-to-r from-primary/20 to-yellow-500/10 border border-primary/30 p-3 text-center">
+                  <div className="text-xs text-muted-foreground uppercase tracking-wider">{showSolution && !isSolved ? 'Score' : 'Score'}</div>
+                  <div className="text-3xl font-bold text-primary">{showSolution && !isSolved ? 0 : 100 - hintsUsed * 15} pts</div>
                 </motion.div>
                 <AnalysisButton fen={game.fen()} />
               </>
@@ -154,12 +153,6 @@ const Index = () => {
           </div>
         </div>
       </main>
-
-      <footer className="border-t border-border mt-16 py-8">
-        <div className="container mx-auto px-4 text-center text-muted-foreground text-sm">
-          <p>© 2026 Europe-Échecs. Tous droits réservés.</p>
-        </div>
-      </footer>
     </div>
   );
 };
