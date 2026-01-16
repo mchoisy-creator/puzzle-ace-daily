@@ -17,61 +17,52 @@ export function PuzzleInfoCard({
   playerTurn,
 }: PuzzleInfoCardProps) {
   const formattedDate = new Date(date).toLocaleDateString('fr-FR', {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
+    weekday: 'short',
     day: 'numeric',
+    month: 'short',
   });
 
   return (
-    <motion.div 
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.2 }}
-      className="rounded-2xl bg-card/80 backdrop-blur-sm border border-border/50 overflow-hidden"
-    >
-      {/* Date Header */}
-      <div className="bg-gradient-to-r from-primary/20 via-primary/10 to-transparent px-3 py-2 border-b border-border/30">
-        <div className="flex items-center justify-between">
-          <Button variant="ghost" size="icon" className="h-7 w-7 text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-full">
-            <ChevronLeft className="w-4 h-4" />
-          </Button>
-          <div className="flex items-center gap-2">
-            <Calendar className="w-3.5 h-3.5 text-primary" />
-            <span className="text-xs font-semibold text-primary capitalize">{formattedDate}</span>
-          </div>
-          <Button variant="ghost" size="icon" className="h-7 w-7 text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-full">
-            <ChevronRight className="w-4 h-4" />
-          </Button>
+    <div className="rounded-2xl bg-secondary/50 overflow-hidden">
+      {/* Date Navigation */}
+      <div className="flex items-center justify-between px-2 py-1.5 bg-secondary/80">
+        <Button variant="ghost" size="icon" className="h-7 w-7 rounded-full hover:bg-primary/20">
+          <ChevronLeft className="w-4 h-4 text-muted-foreground" />
+        </Button>
+        <div className="flex items-center gap-1.5">
+          <Calendar className="w-3.5 h-3.5 text-primary" />
+          <span className="text-xs font-medium text-foreground capitalize">{formattedDate}</span>
         </div>
+        <Button variant="ghost" size="icon" className="h-7 w-7 rounded-full hover:bg-primary/20">
+          <ChevronRight className="w-4 h-4 text-muted-foreground" />
+        </Button>
       </div>
 
-      {/* Player Turn + Description */}
+      {/* Content */}
       <div className="p-3 space-y-2">
-        <motion.div 
-          whileHover={{ scale: 1.01 }}
-          className={`flex items-center justify-center gap-2 py-2 rounded-xl ${
+        {/* Player Turn */}
+        <div className={`flex items-center justify-center gap-2 py-2 px-4 rounded-xl ${
+          playerTurn === 'w' 
+            ? 'bg-white/10' 
+            : 'bg-black/20'
+        }`}>
+          <div className={`w-5 h-5 rounded-full border-2 ${
             playerTurn === 'w' 
-              ? 'bg-gradient-to-r from-white/10 to-gray-200/5 border border-white/20' 
-              : 'bg-gradient-to-r from-gray-800/50 to-gray-900/30 border border-gray-700/50'
-          }`}
-        >
-          <div className={`w-6 h-6 rounded-full shadow-lg ${
-            playerTurn === 'w' 
-              ? 'bg-gradient-to-br from-white to-gray-200' 
-              : 'bg-gradient-to-br from-gray-700 to-gray-900'
+              ? 'bg-white border-white/50' 
+              : 'bg-gray-800 border-gray-600'
           }`} />
-          <span className="uppercase font-bold tracking-wide text-xs">
+          <span className="text-sm font-bold uppercase tracking-wide">
             {playerTurn === 'w' ? 'Trait aux Blancs' : 'Trait aux Noirs'}
           </span>
-        </motion.div>
+        </div>
 
-        <div className="bg-secondary/30 rounded-lg p-2 border-l-3 border-primary/50">
-          <p className="text-xs text-foreground/90 leading-relaxed">
-            💡 {description}
+        {/* Description */}
+        <div className="bg-primary/10 rounded-xl p-3 border-l-4 border-primary">
+          <p className="text-sm text-foreground leading-relaxed">
+            {description}
           </p>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }
