@@ -96,11 +96,13 @@ export function ChessBoardPanel({
         )}
       </motion.div>
 
-      <div className="flex gap-3 flex-wrap">
-        <Button variant="outline" className="btn-outline-gold flex-1 min-w-[100px]" onClick={onRestart}><RotateCcw className="w-4 h-4 mr-2" />Recommencer</Button>
-        <Button variant="outline" className="btn-outline-gold flex-1 min-w-[100px]" onClick={onHint} disabled={isSolved || showSolution}><Lightbulb className="w-4 h-4 mr-2" />Indice</Button>
-        <Button variant="outline" className="btn-outline-gold flex-1 min-w-[100px]" onClick={onShowSolution} disabled={isSolved || showSolution}><Eye className="w-4 h-4 mr-2" />Solution</Button>
-      </div>
+      {(isSolved || showSolution) && (
+        <div className="flex justify-center">
+          <Button variant="outline" className="btn-outline-gold min-w-[140px]" onClick={onRestart}>
+            <RotateCcw className="w-4 h-4 mr-2" />Recommencer
+          </Button>
+        </div>
+      )}
     </motion.div>
   );
 }

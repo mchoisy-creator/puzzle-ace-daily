@@ -1,17 +1,20 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown, Lightbulb, Lock } from 'lucide-react';
+import { ChevronDown, Lightbulb, Lock, Eye } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface HintsCardProps {
   hints: string[];
   hintsUsed: number;
   onUseHint: () => void;
+  onShowSolution: () => void;
   isSolved: boolean;
+  showSolution: boolean;
 }
 
-export function HintsCard({ hints, hintsUsed, onUseHint, isSolved }: HintsCardProps) {
+export function HintsCard({ hints, hintsUsed, onUseHint, onShowSolution, isSolved, showSolution }: HintsCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
+  const canShowSolution = !isSolved && !showSolution;
 
   return (
     <div className="rounded-2xl bg-secondary/50 overflow-hidden">
@@ -24,7 +27,7 @@ export function HintsCard({ hints, hintsUsed, onUseHint, isSolved }: HintsCardPr
           <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
             <Lightbulb className="w-4 h-4 text-primary" />
           </div>
-          <span className="text-sm font-bold text-foreground">Indices</span>
+          <span className="text-sm font-bold text-foreground">Indices & Solution</span>
           {hintsUsed > 0 && (
             <span className="text-xs bg-primary/20 text-primary px-2 py-0.5 rounded-full">
               {hintsUsed}/{hints.length}
@@ -58,13 +61,13 @@ export function HintsCard({ hints, hintsUsed, onUseHint, isSolved }: HintsCardPr
                       </div>
                     ) : (
                       <div className={`flex items-center justify-between p-2.5 rounded-xl ${
-                        isNext && !isSolved ? 'bg-secondary/80' : 'bg-secondary/40 opacity-50'
+                        isNext && !isSolved && !showSolution ? 'bg-secondary/80' : 'bg-secondary/40 opacity-50'
                       }`}>
                         <div className="flex items-center gap-2">
                           <Lock className="w-3.5 h-3.5 text-muted-foreground" />
                           <span className="text-sm text-muted-foreground">Indice {idx + 1}</span>
                         </div>
-                        {isNext && !isSolved && (
+                        {isNext && !isSolved && !showSolution && (
                           <Button
                             variant="ghost"
                             size="sm"
@@ -79,6 +82,18 @@ export function HintsCard({ hints, hintsUsed, onUseHint, isSolved }: HintsCardPr
                   </div>
                 );
               })}
+
+              {/* Solution button */}
+              {canShowSolution && (
+                <Button
+                  variant="outline"
+                  className="w-full mt-2 btn-outline-gold"
+                  onClick={(e) => { e.stopPropagation(); onShowSolution(); }}
+                >
+                  <Eye className="w-4 h-4 mr-2" />
+                  Voir la solution
+                </Button>
+              )}
             </div>
           </motion.div>
         )}

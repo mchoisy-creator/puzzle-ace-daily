@@ -139,7 +139,7 @@ const Index = () => {
             <ProgressionBadges streak={streak} totalSolved={totalSolved} />
             <PuzzleInfoCard date={PUZZLE.date} description={PUZZLE.description} playerTurn={playerTurn} />
             <MoveHistoryCard moves={moveHistory} currentMoveIndex={currentMoveIndex} />
-            <HintsCard hints={PUZZLE.hints} hintsUsed={hintsUsed} onUseHint={useHint} isSolved={isSolved} />
+            <HintsCard hints={PUZZLE.hints} hintsUsed={hintsUsed} onUseHint={useHint} onShowSolution={revealSolution} isSolved={isSolved} showSolution={showSolution} />
             {(isSolved || showSolution) && (
               <>
                 <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="rounded-xl bg-primary/10 p-3 text-center">
