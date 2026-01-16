@@ -120,21 +120,21 @@ const Index = () => {
   const boardRef = useRef<HTMLDivElement>(null);
 
   return (
-    <div className="h-screen bg-background flex flex-col overflow-hidden">
-      <header className="border-b border-border bg-card/50 backdrop-blur-sm shrink-0">
-        <div className="container mx-auto px-4 py-1.5">
+    <div className="min-h-screen bg-background flex flex-col">
+      <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-50">
+        <div className="container mx-auto px-4 py-2">
           <EuropeEchecsLogo />
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-2 flex-1 overflow-hidden">
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-3 max-w-7xl mx-auto h-full">
-          <div className="lg:col-span-3 flex items-start">
-            <div ref={boardRef} className="w-full">
+      <main className="container mx-auto px-4 py-4 flex-1">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 max-w-7xl mx-auto h-full">
+          <div className="lg:col-span-3">
+            <div ref={boardRef}>
               <ChessBoardPanel fen={game.fen()} onMove={makeMove} currentMoveIndex={currentMoveIndex} totalMoves={PUZZLE.solution.length} isSolved={isSolved} isFailed={isFailed} onRestart={restart} onHint={useHint} onShowSolution={revealSolution} showSolution={showSolution} playerTurn={playerTurn} />
             </div>
           </div>
-          <div className="lg:col-span-2 flex flex-col gap-1.5 h-full">
+          <div className="lg:col-span-2 flex flex-col gap-2">
             <StatsCard streak={streak} totalSolved={totalSolved} />
             <ProgressionBadges streak={streak} totalSolved={totalSolved} />
             <PuzzleInfoCard date={PUZZLE.date} description={PUZZLE.description} playerTurn={playerTurn} />
@@ -142,14 +142,15 @@ const Index = () => {
             <HintsCard hints={PUZZLE.hints} hintsUsed={hintsUsed} onUseHint={useHint} isSolved={isSolved} />
             {(isSolved || showSolution) && (
               <>
-                <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="rounded-xl bg-primary/10 p-2 text-center">
-                  <div className="text-[10px] text-muted-foreground uppercase tracking-wider">Score</div>
-                  <div className="text-2xl font-bold text-primary">{showSolution && !isSolved ? 0 : 100 - hintsUsed * 15} pts</div>
+                <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="rounded-xl bg-primary/10 p-3 text-center">
+                  <div className="text-xs text-muted-foreground uppercase tracking-wider">Score</div>
+                  <div className="text-3xl font-bold text-primary">{showSolution && !isSolved ? 0 : 100 - hintsUsed * 15} pts</div>
                 </motion.div>
                 <AnalysisButton fen={game.fen()} />
               </>
             )}
-            <div className="mt-auto">
+            {/* FEN, PGN, Screenshot buttons at bottom */}
+            <div className="mt-auto pt-2">
               <PositionActionsMenu fen={game.fen()} boardRef={boardRef} />
             </div>
           </div>
