@@ -6,27 +6,27 @@
 
 @layer base {
   :root {
-    /* Europe-Échecs exact colors */
-    --background: 225 24% 13%;
+    /* Europe-Échecs brand colors: #192d3b and #FFD30E */
+    --background: 202 41% 16%;
     --foreground: 0 0% 100%;
 
-    --card: 226 21% 17%;
+    --card: 202 38% 20%;
     --card-foreground: 0 0% 100%;
 
-    --popover: 226 21% 17%;
+    --popover: 202 38% 20%;
     --popover-foreground: 0 0% 100%;
 
-    --primary: 39 47% 60%;
-    --primary-foreground: 225 24% 13%;
+    --primary: 49 100% 53%;
+    --primary-foreground: 202 41% 16%;
 
-    --secondary: 226 21% 20%;
+    --secondary: 202 35% 24%;
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 226 21% 24%;
-    --muted-foreground: 0 0% 63%;
+    --muted: 202 30% 28%;
+    --muted-foreground: 0 0% 70%;
 
-    --accent: 39 47% 60%;
-    --accent-foreground: 225 24% 13%;
+    --accent: 49 100% 53%;
+    --accent-foreground: 202 41% 16%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
@@ -34,25 +34,25 @@
     --success: 142 76% 36%;
     --success-foreground: 0 0% 100%;
 
-    --border: 226 21% 22%;
-    --input: 226 21% 24%;
-    --ring: 39 47% 60%;
+    --border: 202 30% 25%;
+    --input: 202 30% 28%;
+    --ring: 49 100% 53%;
 
     --radius: 0.5rem;
 
-    /* Chess Board Colors - Europe-Échecs style */
+    /* Chess Board Colors */
     --board-light: 197 42% 78%;
-    --board-dark: 200 22% 50%;
-    --board-highlight: 39 47% 60%;
+    --board-dark: 202 35% 45%;
+    --board-highlight: 49 100% 53%;
     --board-move-indicator: 142 76% 50%;
 
     /* Stats Colors */
     --streak-fire: 25 95% 53%;
-    --gold: 39 47% 60%;
+    --gold: 49 100% 53%;
 
     /* Shadows */
-    --shadow-card: 0 4px 20px -2px hsl(225 24% 5% / 0.5);
-    --shadow-glow: 0 0 20px hsl(39 47% 60% / 0.2);
+    --shadow-card: 0 4px 20px -2px hsl(202 41% 5% / 0.5);
+    --shadow-glow: 0 0 20px hsl(49 100% 53% / 0.25);
   }
 
   .dark {
