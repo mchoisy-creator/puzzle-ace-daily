@@ -75,31 +75,31 @@ export function ChessBoardPanel({
   const progress = totalMoves > 0 ? (currentMoveIndex / totalMoves) * 100 : 0;
 
   return (
-    <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="flex flex-col gap-4">
+    <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="flex flex-col gap-2">
       {/* Progress bar above the board */}
-      <div className="bg-secondary/50 rounded-xl p-3">
-        <div className="flex items-center justify-between mb-2">
-          <span className="text-sm text-muted-foreground">Progression</span>
-          <span className="text-sm font-medium text-primary">{currentMoveIndex} / {totalMoves} coups</span>
+      <div className="bg-secondary/50 rounded-xl px-3 py-2">
+        <div className="flex items-center justify-between mb-1">
+          <span className="text-xs text-muted-foreground">Progression</span>
+          <span className="text-xs font-medium text-primary">{currentMoveIndex} / {totalMoves} coups</span>
         </div>
-        <div className="progress-bar">
+        <div className="progress-bar h-1.5">
           <motion.div className="progress-fill" initial={{ width: 0 }} animate={{ width: `${progress}%` }} transition={{ duration: 0.5 }} />
         </div>
       </div>
 
-      <motion.div className={`relative rounded-lg overflow-hidden shadow-card ${isFailed ? 'animate-shake' : ''}`}>
+      <motion.div className={`relative rounded-lg overflow-hidden shadow-card max-w-[min(100%,calc(100vh-280px))] mx-auto ${isFailed ? 'animate-shake' : ''}`}>
         <SimpleChessboard fen={fen} playerTurn={playerTurn} />
         {isSolved && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="absolute inset-0 bg-success/20 flex items-center justify-center pointer-events-none">
-            <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="bg-success text-success-foreground px-6 py-3 rounded-full font-bold text-xl">🎉 Puzzle Résolu !</motion.div>
+            <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="bg-success text-success-foreground px-4 py-2 rounded-full font-bold text-lg">🎉 Résolu !</motion.div>
           </motion.div>
         )}
       </motion.div>
 
-      <div className="flex gap-3 flex-wrap">
-        <Button variant="outline" className="btn-outline-gold flex-1 min-w-[100px]" onClick={onRestart}><RotateCcw className="w-4 h-4 mr-2" />Recommencer</Button>
-        <Button variant="outline" className="btn-outline-gold flex-1 min-w-[100px]" onClick={onHint} disabled={isSolved || showSolution}><Lightbulb className="w-4 h-4 mr-2" />Indice</Button>
-        <Button variant="outline" className="btn-outline-gold flex-1 min-w-[100px]" onClick={onShowSolution} disabled={isSolved || showSolution}><Eye className="w-4 h-4 mr-2" />Solution</Button>
+      <div className="flex gap-2">
+        <Button variant="outline" size="sm" className="btn-outline-gold flex-1 h-8 text-xs" onClick={onRestart}><RotateCcw className="w-3 h-3 mr-1" />Recommencer</Button>
+        <Button variant="outline" size="sm" className="btn-outline-gold flex-1 h-8 text-xs" onClick={onHint} disabled={isSolved || showSolution}><Lightbulb className="w-3 h-3 mr-1" />Indice</Button>
+        <Button variant="outline" size="sm" className="btn-outline-gold flex-1 h-8 text-xs" onClick={onShowSolution} disabled={isSolved || showSolution}><Eye className="w-3 h-3 mr-1" />Solution</Button>
       </div>
     </motion.div>
   );
