@@ -129,13 +129,12 @@ const Index = () => {
 
       <main className="container mx-auto px-4 py-4 flex-1">
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 max-w-7xl mx-auto h-full">
-          <div className="lg:col-span-3 space-y-3">
+          <div className="lg:col-span-3">
             <div ref={boardRef}>
               <ChessBoardPanel fen={game.fen()} onMove={makeMove} currentMoveIndex={currentMoveIndex} totalMoves={PUZZLE.solution.length} isSolved={isSolved} isFailed={isFailed} onRestart={restart} onHint={useHint} onShowSolution={revealSolution} showSolution={showSolution} playerTurn={playerTurn} />
             </div>
-            <PositionActionsMenu fen={game.fen()} boardRef={boardRef} />
           </div>
-          <div className="lg:col-span-2 space-y-2">
+          <div className="lg:col-span-2 flex flex-col gap-2">
             <StatsCard streak={streak} totalSolved={totalSolved} />
             <ProgressionBadges streak={streak} totalSolved={totalSolved} />
             <PuzzleInfoCard date={PUZZLE.date} description={PUZZLE.description} playerTurn={playerTurn} />
@@ -143,13 +142,17 @@ const Index = () => {
             <HintsCard hints={PUZZLE.hints} hintsUsed={hintsUsed} onUseHint={useHint} isSolved={isSolved} />
             {(isSolved || showSolution) && (
               <>
-                <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="rounded-xl bg-gradient-to-r from-primary/20 to-yellow-500/10 border border-primary/30 p-3 text-center">
-                  <div className="text-xs text-muted-foreground uppercase tracking-wider">{showSolution && !isSolved ? 'Score' : 'Score'}</div>
+                <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="rounded-xl bg-primary/10 p-3 text-center">
+                  <div className="text-xs text-muted-foreground uppercase tracking-wider">Score</div>
                   <div className="text-3xl font-bold text-primary">{showSolution && !isSolved ? 0 : 100 - hintsUsed * 15} pts</div>
                 </motion.div>
                 <AnalysisButton fen={game.fen()} />
               </>
             )}
+            {/* FEN, PGN, Screenshot buttons at bottom */}
+            <div className="mt-auto pt-2">
+              <PositionActionsMenu fen={game.fen()} boardRef={boardRef} />
+            </div>
           </div>
         </div>
       </main>
