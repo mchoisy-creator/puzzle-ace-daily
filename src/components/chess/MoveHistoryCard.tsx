@@ -1,7 +1,3 @@
-import { motion } from 'framer-motion';
-import { SkipBack, Rewind, FastForward, SkipForward } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-
 interface MoveHistoryCardProps {
   moves: string[];
   currentMoveIndex: number;
@@ -18,29 +14,29 @@ export function MoveHistoryCard({ moves, currentMoveIndex }: MoveHistoryCardProp
     });
   }
 
-  return (
-    <div className="rounded-xl bg-secondary/30 border border-border/30 p-2">
-      {movePairs.length > 0 ? (
-        <div className="flex flex-wrap gap-1 items-center">
-          {movePairs.map((pair, idx) => (
-            <div key={idx} className="flex items-center gap-1 text-xs font-mono">
-              <span className="text-muted-foreground">{pair.number}.</span>
-              <span className={idx * 2 < currentMoveIndex ? 'text-primary font-semibold' : 'text-foreground/80'}>
-                {pair.white}
-              </span>
-              {pair.black && (
-                <span className={idx * 2 + 1 < currentMoveIndex ? 'text-primary font-semibold' : 'text-foreground/80'}>
-                  {pair.black}
-                </span>
-              )}
-            </div>
-          ))}
-        </div>
-      ) : (
-        <p className="text-xs text-muted-foreground text-center py-1">
-          🎯 Jouez votre premier coup !
+  if (movePairs.length === 0) {
+    return (
+      <div className="rounded-xl bg-secondary/30 p-3 text-center">
+        <p className="text-sm text-muted-foreground">
+          Jouez votre premier coup !
         </p>
-      )}
+      </div>
+    );
+  }
+
+  return (
+    <div className="rounded-xl bg-secondary/30 p-2">
+      <div className="flex flex-wrap gap-x-3 gap-y-1">
+        {movePairs.map((pair, idx) => (
+          <div key={idx} className="flex items-center gap-1 text-sm font-mono">
+            <span className="text-muted-foreground text-xs">{pair.number}.</span>
+            <span className="text-foreground font-medium">{pair.white}</span>
+            {pair.black && (
+              <span className="text-foreground font-medium">{pair.black}</span>
+            )}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { Flame, Trophy } from 'lucide-react';
 
 interface StatsCardProps {
   streak: number;
@@ -7,61 +8,37 @@ interface StatsCardProps {
 
 export function StatsCard({ streak, totalSolved }: StatsCardProps) {
   return (
-    <motion.div 
-      initial={{ opacity: 0, scale: 0.95 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ delay: 0.1, type: "spring", stiffness: 200 }}
-      className="grid grid-cols-2 gap-3"
-    >
-      {/* Streak Card */}
+    <div className="flex items-center justify-center gap-6 py-3">
+      {/* Streak */}
       <motion.div 
-        whileHover={{ scale: 1.02, y: -2 }}
-        className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-orange-500/20 via-red-500/10 to-transparent border border-orange-500/30 p-4"
+        whileHover={{ scale: 1.05 }}
+        className="flex items-center gap-2"
       >
-        <div className="absolute -top-4 -right-4 text-6xl opacity-20">🔥</div>
-        <div className="relative">
-          <div className="text-4xl font-black text-orange-400 mb-1">
-            {streak}
-          </div>
-          <div className="text-xs font-medium text-orange-300/80 uppercase tracking-wider">
-            Série en cours
-          </div>
-          {streak >= 5 && (
-            <motion.div 
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              className="absolute -top-1 -left-1 text-lg"
-            >
-              ⚡
-            </motion.div>
-          )}
+        <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
+          <Flame className="w-5 h-5 text-primary" />
+        </div>
+        <div>
+          <div className="text-2xl font-bold text-primary leading-none">{streak}</div>
+          <div className="text-[10px] text-muted-foreground uppercase tracking-wide">Série</div>
         </div>
       </motion.div>
 
-      {/* Total Solved Card */}
+      {/* Divider */}
+      <div className="w-px h-10 bg-border/50" />
+
+      {/* Total */}
       <motion.div 
-        whileHover={{ scale: 1.02, y: -2 }}
-        className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-500/20 via-green-500/10 to-transparent border border-emerald-500/30 p-4"
+        whileHover={{ scale: 1.05 }}
+        className="flex items-center gap-2"
       >
-        <div className="absolute -top-4 -right-4 text-6xl opacity-20">🏆</div>
-        <div className="relative">
-          <div className="text-4xl font-black text-emerald-400 mb-1">
-            {totalSolved.toLocaleString()}
-          </div>
-          <div className="text-xs font-medium text-emerald-300/80 uppercase tracking-wider">
-            Total réussis
-          </div>
-          {totalSolved >= 100 && (
-            <motion.div 
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              className="absolute -top-1 -left-1 text-lg"
-            >
-              ⭐
-            </motion.div>
-          )}
+        <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
+          <Trophy className="w-5 h-5 text-primary" />
+        </div>
+        <div>
+          <div className="text-2xl font-bold text-primary leading-none">{totalSolved}</div>
+          <div className="text-[10px] text-muted-foreground uppercase tracking-wide">Total</div>
         </div>
       </motion.div>
-    </motion.div>
+    </div>
   );
 }
