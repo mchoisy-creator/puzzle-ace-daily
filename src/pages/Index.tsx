@@ -6,6 +6,7 @@ import { StatsCard } from '@/components/chess/StatsCard';
 import { PuzzleInfoCard } from '@/components/chess/PuzzleInfoCard';
 import { MoveHistoryCard } from '@/components/chess/MoveHistoryCard';
 import { HintsCard } from '@/components/chess/HintsCard';
+import { ProgressionBadges } from '@/components/chess/ProgressionBadges';
 import { AnalysisButton } from '@/components/chess/AnalysisButton';
 import { PositionActionsMenu } from '@/components/chess/PositionActionsMenu';
 import { useState, useCallback, useEffect, useRef } from 'react';
@@ -135,8 +136,9 @@ const Index = () => {
             </div>
             <PositionActionsMenu fen={game.fen()} boardRef={boardRef} />
           </div>
-          <div className="lg:col-span-2 space-y-4">
+          <div className="lg:col-span-2 space-y-3">
             <StatsCard streak={streak} totalSolved={totalSolved} />
+            <ProgressionBadges streak={streak} totalSolved={totalSolved} />
             <PuzzleInfoCard date={PUZZLE.date} description={PUZZLE.description} playerWhite={PUZZLE.playerWhite} playerBlack={PUZZLE.playerBlack} event={PUZZLE.event} playerTurn={playerTurn} />
             <MoveHistoryCard moves={moveHistory} currentMoveIndex={currentMoveIndex} />
             <HintsCard hints={PUZZLE.hints} hintsUsed={hintsUsed} onUseHint={useHint} isSolved={isSolved} />
