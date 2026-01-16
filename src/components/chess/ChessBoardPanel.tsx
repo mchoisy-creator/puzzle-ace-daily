@@ -76,16 +76,8 @@ export function ChessBoardPanel({
 
   return (
     <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="flex flex-col gap-4">
-      <motion.div className={`relative rounded-lg overflow-hidden shadow-card ${isFailed ? 'animate-shake' : ''}`}>
-        <SimpleChessboard fen={fen} playerTurn={playerTurn} />
-        {isSolved && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="absolute inset-0 bg-success/20 flex items-center justify-center pointer-events-none">
-            <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="bg-success text-success-foreground px-6 py-3 rounded-full font-bold text-xl">🎉 Puzzle Résolu !</motion.div>
-          </motion.div>
-        )}
-      </motion.div>
-
-      <div className="card-chess">
+      {/* Progress bar above the board */}
+      <div className="bg-secondary/50 rounded-xl p-3">
         <div className="flex items-center justify-between mb-2">
           <span className="text-sm text-muted-foreground">Progression</span>
           <span className="text-sm font-medium text-primary">{currentMoveIndex} / {totalMoves} coups</span>
@@ -94,6 +86,15 @@ export function ChessBoardPanel({
           <motion.div className="progress-fill" initial={{ width: 0 }} animate={{ width: `${progress}%` }} transition={{ duration: 0.5 }} />
         </div>
       </div>
+
+      <motion.div className={`relative rounded-lg overflow-hidden shadow-card ${isFailed ? 'animate-shake' : ''}`}>
+        <SimpleChessboard fen={fen} playerTurn={playerTurn} />
+        {isSolved && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="absolute inset-0 bg-success/20 flex items-center justify-center pointer-events-none">
+            <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="bg-success text-success-foreground px-6 py-3 rounded-full font-bold text-xl">🎉 Puzzle Résolu !</motion.div>
+          </motion.div>
+        )}
+      </motion.div>
 
       <div className="flex gap-3 flex-wrap">
         <Button variant="outline" className="btn-outline-gold flex-1 min-w-[100px]" onClick={onRestart}><RotateCcw className="w-4 h-4 mr-2" />Recommencer</Button>

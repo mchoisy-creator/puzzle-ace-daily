@@ -22,8 +22,7 @@ export function AnalysisButton({ fen }: AnalysisButtonProps) {
         onClick={openAnalysis}
         className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-bold py-5 rounded-xl"
       >
-        <ExternalLink className="w-4 h-4 mr-2" />
-        Analyser sur Lichess
+        Activer l'analyse
       </Button>
     </motion.div>
   );
