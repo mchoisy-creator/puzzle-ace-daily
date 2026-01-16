@@ -1,3 +1,4 @@
+// Chess Puzzle Page
 import { motion } from 'framer-motion';
 import { EuropeEchecsLogo } from '@/components/chess/EuropeEchecsLogo';
 import { ChessBoardPanel } from '@/components/chess/ChessBoardPanel';
