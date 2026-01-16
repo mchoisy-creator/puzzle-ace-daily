@@ -96,12 +96,10 @@ export function ChessBoardPanel({
       </div>
 
       <div className="flex gap-3 flex-wrap">
-        <Button variant="outline" className="btn-outline-gold flex-1 min-w-[120px]" onClick={onRestart}><RotateCcw className="w-4 h-4 mr-2" />Recommencer</Button>
-        <Button variant="outline" className="btn-outline-gold flex-1 min-w-[120px]" onClick={onHint} disabled={isSolved || showSolution}><Lightbulb className="w-4 h-4 mr-2" />Indice</Button>
-        <Button variant="outline" className="btn-outline-gold flex-1 min-w-[120px]" onClick={onShowSolution} disabled={isSolved || showSolution}><Eye className="w-4 h-4 mr-2" />Solution</Button>
+        <Button variant="outline" className="btn-outline-gold flex-1 min-w-[100px]" onClick={onRestart}><RotateCcw className="w-4 h-4 mr-2" />Recommencer</Button>
+        <Button variant="outline" className="btn-outline-gold flex-1 min-w-[100px]" onClick={onHint} disabled={isSolved || showSolution}><Lightbulb className="w-4 h-4 mr-2" />Indice</Button>
+        <Button variant="outline" className="btn-outline-gold flex-1 min-w-[100px]" onClick={onShowSolution} disabled={isSolved || showSolution}><Eye className="w-4 h-4 mr-2" />Solution</Button>
       </div>
-      
-      <p className="text-center text-sm text-muted-foreground">💡 Jouez Dxf7# pour résoudre ce puzzle (mat du berger)</p>
     </motion.div>
   );
 }

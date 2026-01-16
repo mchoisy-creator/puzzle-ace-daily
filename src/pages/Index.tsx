@@ -5,7 +5,9 @@ import { StatsCard } from '@/components/chess/StatsCard';
 import { PuzzleInfoCard } from '@/components/chess/PuzzleInfoCard';
 import { MoveHistoryCard } from '@/components/chess/MoveHistoryCard';
 import { HintsCard } from '@/components/chess/HintsCard';
-import { useState, useCallback, useEffect } from 'react';
+import { AnalysisButton } from '@/components/chess/AnalysisButton';
+import { PositionActionsMenu } from '@/components/chess/PositionActionsMenu';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { Chess } from 'chess.js';
 import { useToast } from '@/hooks/use-toast';
 
@@ -113,23 +115,24 @@ const Index = () => {
 
   const playerTurn = PUZZLE.fen.split(' ')[1] as 'w' | 'b';
 
+  const boardRef = useRef<HTMLDivElement>(null);
+
   return (
     <div className="min-h-screen bg-background">
       <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4">
+        <div className="container mx-auto px-4 py-3">
           <EuropeEchecsLogo />
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-8">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-8 text-center">
-          <h1 className="text-3xl md:text-4xl font-bold text-primary uppercase tracking-wider mb-2">Puzzle du Jour</h1>
-          <p className="text-muted-foreground">Trouvez la meilleure séquence de coups</p>
-        </motion.div>
+      <main className="container mx-auto px-4 py-6">
 
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 max-w-7xl mx-auto">
-          <div className="lg:col-span-3">
-            <ChessBoardPanel fen={game.fen()} onMove={makeMove} currentMoveIndex={currentMoveIndex} totalMoves={PUZZLE.solution.length} isSolved={isSolved} isFailed={isFailed} onRestart={restart} onHint={useHint} onShowSolution={revealSolution} showSolution={showSolution} playerTurn={playerTurn} />
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 max-w-7xl mx-auto">
+          <div className="lg:col-span-3 space-y-4">
+            <div ref={boardRef}>
+              <ChessBoardPanel fen={game.fen()} onMove={makeMove} currentMoveIndex={currentMoveIndex} totalMoves={PUZZLE.solution.length} isSolved={isSolved} isFailed={isFailed} onRestart={restart} onHint={useHint} onShowSolution={revealSolution} showSolution={showSolution} playerTurn={playerTurn} />
+            </div>
+            <PositionActionsMenu fen={game.fen()} boardRef={boardRef} />
           </div>
           <div className="lg:col-span-2 space-y-4">
             <StatsCard streak={streak} totalSolved={totalSolved} />
@@ -137,10 +140,13 @@ const Index = () => {
             <MoveHistoryCard moves={moveHistory} currentMoveIndex={currentMoveIndex} />
             <HintsCard hints={PUZZLE.hints} hintsUsed={hintsUsed} onUseHint={useHint} isSolved={isSolved} />
             {(isSolved || showSolution) && (
-              <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="card-chess text-center">
-                <div className="text-sm text-muted-foreground uppercase tracking-wider mb-1">{showSolution && !isSolved ? 'Score Final' : 'Votre Score'}</div>
-                <div className="text-4xl font-bold text-primary">{showSolution && !isSolved ? 0 : 100 - hintsUsed * 15} pts</div>
-              </motion.div>
+              <>
+                <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="card-chess text-center">
+                  <div className="text-sm text-muted-foreground uppercase tracking-wider mb-1">{showSolution && !isSolved ? 'Score Final' : 'Votre Score'}</div>
+                  <div className="text-4xl font-bold text-primary">{showSolution && !isSolved ? 0 : 100 - hintsUsed * 15} pts</div>
+                </motion.div>
+                <AnalysisButton fen={game.fen()} />
+              </>
             )}
           </div>
         </div>
