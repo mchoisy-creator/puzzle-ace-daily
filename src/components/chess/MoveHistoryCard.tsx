@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { SkipBack, Rewind, FastForward, SkipForward } from 'lucide-react';
+import { SkipBack, Rewind, FastForward, SkipForward, History } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface MoveHistoryCardProps {
@@ -8,7 +8,6 @@ interface MoveHistoryCardProps {
 }
 
 export function MoveHistoryCard({ moves, currentMoveIndex }: MoveHistoryCardProps) {
-  // Group moves into pairs (white, black)
   const movePairs: { number: number; white?: string; black?: string }[] = [];
   
   for (let i = 0; i < moves.length; i += 2) {
@@ -24,52 +23,80 @@ export function MoveHistoryCard({ moves, currentMoveIndex }: MoveHistoryCardProp
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.3 }}
-      className="card-chess"
+      className="rounded-2xl bg-card/80 backdrop-blur-sm border border-border/50 overflow-hidden"
     >
-      <h3 className="text-sm font-bold uppercase tracking-wider text-primary mb-3">
-        Liste des Coups
-      </h3>
-
-      {/* Move List */}
-      <div className="max-h-32 overflow-y-auto mb-4 bg-secondary/30 rounded-lg p-2">
-        {movePairs.length > 0 ? (
-          <div className="space-y-1">
-            {movePairs.map((pair, idx) => (
-              <div 
-                key={idx} 
-                className="grid grid-cols-[40px_1fr_1fr] gap-2 text-sm font-mono"
-              >
-                <span className="text-muted-foreground">{pair.number}.</span>
-                <span className={idx * 2 < currentMoveIndex ? 'move-highlight' : 'text-foreground'}>
-                  {pair.white || '...'}
-                </span>
-                <span className={idx * 2 + 1 < currentMoveIndex ? 'move-highlight' : 'text-foreground'}>
-                  {pair.black || ''}
-                </span>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <p className="text-sm text-muted-foreground text-center py-4">
-            Aucun coup joué
-          </p>
+      {/* Header */}
+      <div className="flex items-center gap-2 px-4 py-3 bg-gradient-to-r from-blue-500/10 to-transparent border-b border-border/30">
+        <History className="w-4 h-4 text-blue-400" />
+        <h3 className="text-sm font-bold uppercase tracking-wider text-blue-400">
+          Historique
+        </h3>
+        {moves.length > 0 && (
+          <span className="ml-auto text-xs bg-blue-500/20 text-blue-300 px-2 py-0.5 rounded-full">
+            {moves.length} coup{moves.length > 1 ? 's' : ''}
+          </span>
         )}
       </div>
 
-      {/* Navigation Buttons */}
-      <div className="flex justify-center gap-2">
-        <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-primary">
-          <SkipBack className="w-4 h-4" />
-        </Button>
-        <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-primary">
-          <Rewind className="w-4 h-4" />
-        </Button>
-        <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-primary">
-          <FastForward className="w-4 h-4" />
-        </Button>
-        <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-primary">
-          <SkipForward className="w-4 h-4" />
-        </Button>
+      {/* Move List */}
+      <div className="max-h-28 overflow-y-auto p-3">
+        {movePairs.length > 0 ? (
+          <div className="space-y-1.5">
+            {movePairs.map((pair, idx) => (
+              <motion.div 
+                key={idx}
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: idx * 0.05 }}
+                className="grid grid-cols-[32px_1fr_1fr] gap-2 text-sm font-mono items-center"
+              >
+                <span className="text-xs text-muted-foreground bg-secondary/50 rounded px-1.5 py-0.5 text-center">
+                  {pair.number}.
+                </span>
+                <span className={`px-2 py-1 rounded-lg transition-all ${
+                  idx * 2 < currentMoveIndex 
+                    ? 'bg-primary/20 text-primary font-semibold' 
+                    : 'text-foreground/80'
+                }`}>
+                  {pair.white || '...'}
+                </span>
+                <span className={`px-2 py-1 rounded-lg transition-all ${
+                  idx * 2 + 1 < currentMoveIndex 
+                    ? 'bg-primary/20 text-primary font-semibold' 
+                    : 'text-foreground/80'
+                }`}>
+                  {pair.black || ''}
+                </span>
+              </motion.div>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-6">
+            <span className="text-3xl mb-2 block">🎯</span>
+            <p className="text-sm text-muted-foreground">
+              Jouez votre premier coup !
+            </p>
+          </div>
+        )}
+      </div>
+
+      {/* Navigation */}
+      <div className="flex justify-center gap-1 p-3 bg-secondary/20 border-t border-border/30">
+        {[
+          { icon: SkipBack, label: "Début" },
+          { icon: Rewind, label: "Précédent" },
+          { icon: FastForward, label: "Suivant" },
+          { icon: SkipForward, label: "Fin" },
+        ].map((item, idx) => (
+          <Button 
+            key={idx}
+            variant="ghost" 
+            size="icon" 
+            className="h-8 w-8 text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-full"
+          >
+            <item.icon className="w-4 h-4" />
+          </Button>
+        ))}
       </div>
     </motion.div>
   );

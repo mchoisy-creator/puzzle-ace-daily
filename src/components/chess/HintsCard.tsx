@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Lightbulb, ChevronDown, ChevronUp, Lock } from 'lucide-react';
+import { ChevronDown, ChevronUp, Lock, Unlock, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface HintsCardProps {
@@ -18,32 +18,37 @@ export function HintsCard({ hints, hintsUsed, onUseHint, isSolved }: HintsCardPr
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.4 }}
-      className="card-chess"
+      className="rounded-2xl bg-card/80 backdrop-blur-sm border border-border/50 overflow-hidden"
     >
       {/* Header */}
       <button
         onClick={() => setIsExpanded(!isExpanded)}
-        className="w-full flex items-center justify-between"
+        className="w-full flex items-center justify-between px-4 py-3 bg-gradient-to-r from-purple-500/10 to-transparent hover:from-purple-500/20 transition-all"
       >
         <div className="flex items-center gap-2">
-          <Lightbulb className="w-5 h-5 text-primary" />
-          <h3 className="text-sm font-bold uppercase tracking-wider text-primary">
+          <span className="text-xl">💡</span>
+          <h3 className="text-sm font-bold uppercase tracking-wider text-purple-400">
             Indices
           </h3>
           {hintsUsed > 0 && (
-            <span className="text-xs bg-primary/20 text-primary px-2 py-0.5 rounded-full">
-              {hintsUsed}/{hints.length} utilisés
-            </span>
+            <motion.span 
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              className="text-xs bg-purple-500/30 text-purple-300 px-2 py-0.5 rounded-full font-medium"
+            >
+              {hintsUsed}/{hints.length}
+            </motion.span>
           )}
         </div>
-        {isExpanded ? (
-          <ChevronUp className="w-5 h-5 text-muted-foreground" />
-        ) : (
-          <ChevronDown className="w-5 h-5 text-muted-foreground" />
-        )}
+        <motion.div
+          animate={{ rotate: isExpanded ? 180 : 0 }}
+          transition={{ duration: 0.2 }}
+        >
+          <ChevronDown className="w-5 h-5 text-purple-400" />
+        </motion.div>
       </button>
 
-      {/* Hints Content */}
+      {/* Content */}
       <AnimatePresence>
         {isExpanded && (
           <motion.div
@@ -53,54 +58,76 @@ export function HintsCard({ hints, hintsUsed, onUseHint, isSolved }: HintsCardPr
             transition={{ duration: 0.3 }}
             className="overflow-hidden"
           >
-            <div className="pt-4 space-y-3">
+            <div className="px-4 pb-4 space-y-2">
               {hints.map((hint, idx) => {
                 const isRevealed = idx < hintsUsed;
                 const isNext = idx === hintsUsed;
+                const pointCost = 15;
 
                 return (
-                  <div key={idx}>
+                  <motion.div 
+                    key={idx}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: idx * 0.1 }}
+                  >
                     {isRevealed ? (
-                      <motion.div
-                        initial={{ opacity: 0, x: -10 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        className="hint-card"
-                      >
+                      <div className="bg-gradient-to-r from-purple-500/20 to-transparent rounded-xl p-3 border-l-4 border-purple-400">
                         <div className="flex items-start gap-2">
-                          <span className="text-xs font-bold text-primary bg-primary/20 px-2 py-0.5 rounded">
-                            #{idx + 1}
-                          </span>
-                          <p className="text-sm text-foreground">{hint}</p>
+                          <span className="text-lg">✨</span>
+                          <div>
+                            <span className="text-xs font-bold text-purple-300 block mb-1">
+                              Indice #{idx + 1}
+                            </span>
+                            <p className="text-sm text-foreground">{hint}</p>
+                          </div>
                         </div>
-                      </motion.div>
+                      </div>
                     ) : (
-                      <div className="flex items-center gap-2 text-muted-foreground">
-                        <Lock className="w-4 h-4" />
-                        <span className="text-sm">
-                          Indice {idx + 1} {isNext && !isSolved ? '(-15 pts)' : ''}
-                        </span>
+                      <div className={`flex items-center justify-between p-3 rounded-xl transition-all ${
+                        isNext && !isSolved 
+                          ? 'bg-secondary/50 border border-dashed border-purple-400/50' 
+                          : 'bg-secondary/20 opacity-60'
+                      }`}>
+                        <div className="flex items-center gap-2">
+                          {isNext && !isSolved ? (
+                            <Unlock className="w-4 h-4 text-purple-400" />
+                          ) : (
+                            <Lock className="w-4 h-4 text-muted-foreground" />
+                          )}
+                          <span className="text-sm text-muted-foreground">
+                            Indice #{idx + 1}
+                          </span>
+                          {isNext && !isSolved && (
+                            <span className="text-xs text-orange-400">
+                              (-{pointCost} pts)
+                            </span>
+                          )}
+                        </div>
                         {isNext && !isSolved && (
                           <Button
                             variant="ghost"
                             size="sm"
-                            className="text-primary hover:text-primary-foreground hover:bg-primary ml-auto"
+                            className="h-7 text-xs bg-purple-500/20 text-purple-300 hover:bg-purple-500/40 hover:text-purple-100 rounded-full px-3"
                             onClick={(e) => {
                               e.stopPropagation();
                               onUseHint();
                             }}
                           >
+                            <Sparkles className="w-3 h-3 mr-1" />
                             Révéler
                           </Button>
                         )}
                       </div>
                     )}
-                  </div>
+                  </motion.div>
                 );
               })}
 
-              {/* Points Info */}
-              <div className="text-xs text-muted-foreground text-center pt-2 border-t border-border">
-                Chaque indice = -15 points sur votre score
+              {/* Info footer */}
+              <div className="flex items-center justify-center gap-2 pt-2 text-xs text-muted-foreground">
+                <span>💰</span>
+                <span>Chaque indice coûte 15 points</span>
               </div>
             </div>
           </motion.div>
