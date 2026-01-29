@@ -6,6 +6,7 @@ import { StatsCard } from '@/components/chess/StatsCard';
 import { PuzzleInfoCard } from '@/components/chess/PuzzleInfoCard';
 import { MoveHistoryCard } from '@/components/chess/MoveHistoryCard';
 import { HintsCard } from '@/components/chess/HintsCard';
+import { ActionButtons } from '@/components/chess/ActionButtons';
 import { AnalysisButton } from '@/components/chess/AnalysisButton';
 import { PositionActionsMenu } from '@/components/chess/PositionActionsMenu';
 import { useState, useCallback, useEffect, useRef } from 'react';
@@ -136,8 +137,23 @@ const Index = () => {
           <div className="lg:col-span-2 flex flex-col gap-3">
             <StatsCard streak={streak} totalSolved={totalSolved} />
             <PuzzleInfoCard description={PUZZLE.description} playerTurn={playerTurn} />
+            
+            {/* Action Buttons */}
+            <ActionButtons
+              onShowSolution={revealSolution}
+              onHint={useHint}
+              onRestart={restart}
+              isSolved={isSolved}
+              showSolution={showSolution}
+              hintsUsed={hintsUsed}
+              totalHints={PUZZLE.hints.length}
+            />
+            
+            {/* Hints (only shown when hints are used) */}
+            <HintsCard hints={PUZZLE.hints} hintsUsed={hintsUsed} onUseHint={useHint} />
+            
             <MoveHistoryCard moves={moveHistory} currentMoveIndex={currentMoveIndex} />
-            <HintsCard hints={PUZZLE.hints} hintsUsed={hintsUsed} onUseHint={useHint} onShowSolution={revealSolution} isSolved={isSolved} showSolution={showSolution} />
+            
             {(isSolved || showSolution) && (
               <>
                 <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="rounded-xl bg-primary/10 p-3 text-center">
@@ -147,6 +163,7 @@ const Index = () => {
                 <AnalysisButton fen={game.fen()} />
               </>
             )}
+            
             {/* FEN, PGN, Screenshot buttons at bottom */}
             <div className="mt-auto pt-2">
               <PositionActionsMenu fen={game.fen()} boardRef={boardRef} />
