@@ -152,12 +152,14 @@ const Index = () => {
             
             <MoveHistoryCard moves={moveHistory} currentMoveIndex={currentMoveIndex} />
             
-            {/* FEN, PGN, Screenshot buttons */}
-            <PositionActionsMenu fen={game.fen()} boardRef={boardRef} />
-            
             {(isSolved || showSolution) && (
               <AnalysisButton fen={game.fen()} />
             )}
+            
+            {/* FEN, PGN, Screenshot buttons at bottom */}
+            <div className="mt-auto">
+              <PositionActionsMenu fen={game.fen()} boardRef={boardRef} />
+            </div>
           </div>
         </div>
       </main>
