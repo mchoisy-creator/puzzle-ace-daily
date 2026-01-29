@@ -1,14 +1,26 @@
 interface PuzzleInfoCardProps {
-  description: string;
+  playerWhite: string;
+  playerBlack: string;
+  year: string;
   playerTurn: 'w' | 'b';
 }
 
 export function PuzzleInfoCard({
-  description,
+  playerWhite,
+  playerBlack,
+  year,
   playerTurn,
 }: PuzzleInfoCardProps) {
   return (
     <div className="rounded-2xl bg-secondary/50 p-4 space-y-3">
+      {/* Game Title */}
+      <div className="text-center">
+        <h2 className="text-lg font-bold text-foreground">
+          {playerWhite} - {playerBlack}
+        </h2>
+        <span className="text-sm text-muted-foreground">{year}</span>
+      </div>
+
       {/* Player Turn */}
       <div className={`flex items-center justify-center gap-3 py-3 px-4 rounded-xl ${
         playerTurn === 'w' 
@@ -23,13 +35,6 @@ export function PuzzleInfoCard({
         <span className="text-base font-bold uppercase tracking-wide">
           {playerTurn === 'w' ? 'Trait aux Blancs' : 'Trait aux Noirs'}
         </span>
-      </div>
-
-      {/* Description */}
-      <div className="bg-primary/10 rounded-xl p-4 border-l-4 border-primary">
-        <p className="text-sm text-foreground leading-relaxed">
-          {description}
-        </p>
       </div>
     </div>
   );

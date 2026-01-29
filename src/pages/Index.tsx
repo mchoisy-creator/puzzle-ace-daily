@@ -15,13 +15,11 @@ import { useToast } from '@/hooks/use-toast';
 
 const PUZZLE = {
   id: "puzzle-2026-01-16",
-  date: "2026-01-16",
   fen: "r1bqkb1r/pppp1ppp/2n2n2/4p2Q/2B1P3/8/PPPP1PPP/RNB1K1NR w KQkq - 4 4",
   solution: ["h5f7"],
-  description: "Le célèbre mat du berger ! Une attaque fulgurante sur f7, le talon d'Achille des Noirs.",
-  playerWhite: "Amateur",
-  playerBlack: "Amateur", 
-  event: "Partie d'apprentissage",
+  playerWhite: "Carlsen",
+  playerBlack: "Caruana", 
+  year: "2026",
   hints: [
     "Cherchez une attaque directe sur le roi noir.",
     "La case f7 n'est protégée que par le roi...",
@@ -136,7 +134,7 @@ const Index = () => {
           </div>
           <div className="lg:col-span-2 flex flex-col gap-3">
             <StatsCard streak={streak} totalSolved={totalSolved} />
-            <PuzzleInfoCard description={PUZZLE.description} playerTurn={playerTurn} />
+            <PuzzleInfoCard playerWhite={PUZZLE.playerWhite} playerBlack={PUZZLE.playerBlack} year={PUZZLE.year} playerTurn={playerTurn} />
             
             {/* Action Buttons */}
             <ActionButtons
