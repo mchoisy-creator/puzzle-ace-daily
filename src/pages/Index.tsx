@@ -156,10 +156,12 @@ const Index = () => {
             
             {(isSolved || showSolution) && (
               <>
-                <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="rounded-xl bg-primary/10 p-3 text-center">
-                  <div className="text-xs text-muted-foreground uppercase tracking-wider">Score</div>
-                  <div className="text-3xl font-bold text-primary">{showSolution && !isSolved ? 0 : 100 - hintsUsed * 15} pts</div>
-                </motion.div>
+                {isSolved && (
+                  <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="rounded-xl bg-primary/10 p-3 text-center">
+                    <div className="text-xs text-muted-foreground uppercase tracking-wider">Score</div>
+                    <div className="text-3xl font-bold text-primary">{100 - hintsUsed * 15} pts</div>
+                  </motion.div>
+                )}
                 <AnalysisButton fen={game.fen()} />
               </>
             )}
