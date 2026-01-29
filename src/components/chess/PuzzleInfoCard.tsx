@@ -18,7 +18,6 @@ export function PuzzleInfoCard({
         <h2 className="text-lg font-bold text-foreground">
           {playerWhite} - {playerBlack}
         </h2>
-        <span className="text-sm text-muted-foreground">{year}</span>
       </div>
 
       {/* Player Turn */}
