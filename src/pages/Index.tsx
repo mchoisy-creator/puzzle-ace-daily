@@ -6,7 +6,6 @@ import { StatsCard } from '@/components/chess/StatsCard';
 import { PuzzleInfoCard } from '@/components/chess/PuzzleInfoCard';
 import { MoveHistoryCard } from '@/components/chess/MoveHistoryCard';
 import { HintsCard } from '@/components/chess/HintsCard';
-import { ProgressionBadges } from '@/components/chess/ProgressionBadges';
 import { AnalysisButton } from '@/components/chess/AnalysisButton';
 import { PositionActionsMenu } from '@/components/chess/PositionActionsMenu';
 import { useState, useCallback, useEffect, useRef } from 'react';
@@ -134,10 +133,9 @@ const Index = () => {
               <ChessBoardPanel fen={game.fen()} onMove={makeMove} currentMoveIndex={currentMoveIndex} totalMoves={PUZZLE.solution.length} isSolved={isSolved} isFailed={isFailed} onRestart={restart} onHint={useHint} onShowSolution={revealSolution} showSolution={showSolution} playerTurn={playerTurn} />
             </div>
           </div>
-          <div className="lg:col-span-2 flex flex-col gap-2">
+          <div className="lg:col-span-2 flex flex-col gap-3">
             <StatsCard streak={streak} totalSolved={totalSolved} />
-            <ProgressionBadges streak={streak} totalSolved={totalSolved} />
-            <PuzzleInfoCard date={PUZZLE.date} description={PUZZLE.description} playerTurn={playerTurn} />
+            <PuzzleInfoCard description={PUZZLE.description} playerTurn={playerTurn} />
             <MoveHistoryCard moves={moveHistory} currentMoveIndex={currentMoveIndex} />
             <HintsCard hints={PUZZLE.hints} hintsUsed={hintsUsed} onUseHint={useHint} onShowSolution={revealSolution} isSolved={isSolved} showSolution={showSolution} />
             {(isSolved || showSolution) && (
