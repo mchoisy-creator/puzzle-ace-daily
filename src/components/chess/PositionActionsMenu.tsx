@@ -71,39 +71,39 @@ export function PositionActionsMenu({ fen, boardRef }: PositionActionsMenuProps)
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="flex items-center justify-center gap-2 p-3 bg-card rounded-lg"
+      className="flex items-center justify-center gap-1 p-2 bg-card rounded-lg"
     >
       <Button
         variant="ghost"
         size="sm"
         onClick={copyFen}
-        className="text-muted-foreground hover:text-primary hover:bg-primary/10"
+        className="text-muted-foreground hover:text-primary hover:bg-primary/10 h-7 text-xs px-2"
       >
-        {copied ? <Check className="w-4 h-4 mr-2 text-success" /> : <Copy className="w-4 h-4 mr-2" />}
+        {copied ? <Check className="w-3 h-3 mr-1 text-success" /> : <Copy className="w-3 h-3 mr-1" />}
         FEN
       </Button>
       
-      <div className="w-px h-6 bg-border" />
+      <div className="w-px h-5 bg-border" />
       
       <Button
         variant="ghost"
         size="sm"
         onClick={downloadPgn}
-        className="text-muted-foreground hover:text-primary hover:bg-primary/10"
+        className="text-muted-foreground hover:text-primary hover:bg-primary/10 h-7 text-xs px-2"
       >
-        <Download className="w-4 h-4 mr-2" />
+        <Download className="w-3 h-3 mr-1" />
         PGN
       </Button>
       
-      <div className="w-px h-6 bg-border" />
+      <div className="w-px h-5 bg-border" />
       
       <Button
         variant="ghost"
         size="sm"
         onClick={takeScreenshot}
-        className="text-muted-foreground hover:text-primary hover:bg-primary/10"
+        className="text-muted-foreground hover:text-primary hover:bg-primary/10 h-7 text-xs px-2"
       >
-        <Camera className="w-4 h-4 mr-2" />
+        <Camera className="w-3 h-3 mr-1" />
         Screenshot
       </Button>
     </motion.div>
