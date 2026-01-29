@@ -96,13 +96,6 @@ export function ChessBoardPanel({
         )}
       </motion.div>
 
-      {(isSolved || showSolution) && (
-        <div className="flex justify-center">
-          <Button variant="outline" className="btn-outline-gold min-w-[140px]" onClick={onRestart}>
-            <RotateCcw className="w-4 h-4 mr-2" />Recommencer
-          </Button>
-        </div>
-      )}
     </motion.div>
   );
 }
