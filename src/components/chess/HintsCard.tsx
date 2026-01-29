@@ -70,7 +70,7 @@ export function HintsCard({ hints, hintsUsed, onUseHint }: HintsCardProps) {
                           className="h-7 text-xs bg-primary/20 text-primary hover:bg-primary/30 rounded-full px-3"
                           onClick={(e) => { e.stopPropagation(); onUseHint(); }}
                         >
-                          -15 pts
+                          Révéler
                         </Button>
                       </div>
                     ) : null}
