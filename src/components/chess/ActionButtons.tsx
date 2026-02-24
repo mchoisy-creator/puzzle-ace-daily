@@ -26,7 +26,7 @@ export function ActionButtons({
 }: ActionButtonsProps) {
   const canShowSolution = !isSolved && !showSolution;
   const canUseHint = hintsUsed < totalHints && !isSolved && !showSolution;
-  const canHighlight = hintsUsed > 0 && !isHighlightUsed && !isSolved && !showSolution;
+  const canHighlight = !isHighlightUsed && !isSolved && !showSolution;
 
   return (
     <div className="space-y-1.5">
