@@ -31,6 +31,8 @@ const Index = () => {
   const [game, setGame] = useState(() => new Chess(PUZZLE.fen));
   const [currentMoveIndex, setCurrentMoveIndex] = useState(0);
   const [hintsUsed, setHintsUsed] = useState(0);
+  const [isHighlightUsed, setIsHighlightUsed] = useState(false);
+  const [highlightSquare, setHighlightSquare] = useState<string | null>(null);
   const [isSolved, setIsSolved] = useState(false);
   const [isFailed, setIsFailed] = useState(false);
   const [moveHistory, setMoveHistory] = useState<string[]>([]);
@@ -93,12 +95,23 @@ const Index = () => {
     setCurrentMoveIndex(0);
     setMoveHistory([]);
     setHintsUsed(0);
+    setIsHighlightUsed(false);
+    setHighlightSquare(null);
     setIsFailed(false);
     setShowSolution(false);
   };
 
   const useHint = () => {
     if (hintsUsed < PUZZLE.hints.length) setHintsUsed(prev => prev + 1);
+  };
+
+  const useHighlight = () => {
+    if (!isHighlightUsed && hintsUsed > 0) {
+      const currentMove = PUZZLE.solution[currentMoveIndex];
+      const fromSquare = currentMove.slice(0, 2);
+      setHighlightSquare(fromSquare);
+      setIsHighlightUsed(true);
+    }
   };
 
   const revealSolution = () => {
@@ -129,7 +142,7 @@ const Index = () => {
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-3 max-w-6xl mx-auto h-full">
           <div className="lg:col-span-3 flex flex-col h-full">
             <div ref={boardRef} className="flex-1 min-h-0">
-              <ChessBoardPanel fen={game.fen()} onMove={makeMove} currentMoveIndex={currentMoveIndex} totalMoves={PUZZLE.solution.length} isSolved={isSolved} isFailed={isFailed} onRestart={restart} onHint={useHint} onShowSolution={revealSolution} showSolution={showSolution} playerTurn={playerTurn} />
+              <ChessBoardPanel fen={game.fen()} onMove={makeMove} currentMoveIndex={currentMoveIndex} totalMoves={PUZZLE.solution.length} isSolved={isSolved} isFailed={isFailed} onRestart={restart} onHint={useHint} onShowSolution={revealSolution} showSolution={showSolution} playerTurn={playerTurn} highlightSquare={highlightSquare} />
             </div>
           </div>
           <div className="lg:col-span-2 flex flex-col gap-2 h-full overflow-hidden">
@@ -140,11 +153,13 @@ const Index = () => {
             <ActionButtons
               onShowSolution={revealSolution}
               onHint={useHint}
+              onHighlight={useHighlight}
               onRestart={restart}
               isSolved={isSolved}
               showSolution={showSolution}
               hintsUsed={hintsUsed}
               totalHints={PUZZLE.hints.length}
+              isHighlightUsed={isHighlightUsed}
             />
             
             {/* Hints (only shown when hints are used) */}

@@ -14,10 +14,11 @@ interface ChessBoardPanelProps {
   onShowSolution: () => void;
   showSolution: boolean;
   playerTurn: 'w' | 'b';
+  highlightSquare?: string | null;
 }
 
 // Simple visual chessboard rendering
-function SimpleChessboard({ fen, playerTurn }: { fen: string; playerTurn: 'w' | 'b' }) {
+function SimpleChessboard({ fen, playerTurn, highlightSquare }: { fen: string; playerTurn: 'w' | 'b'; highlightSquare?: string | null }) {
   const pieceSymbols: Record<string, string> = {
     'K': '♔', 'Q': '♕', 'R': '♖', 'B': '♗', 'N': '♘', 'P': '♙',
     'k': '♚', 'q': '♛', 'r': '♜', 'b': '♝', 'n': '♞', 'p': '♟'
@@ -40,18 +41,32 @@ function SimpleChessboard({ fen, playerTurn }: { fen: string; playerTurn: 'w' | 
 
   if (playerTurn === 'b') board.reverse();
 
+  // Convert highlight square (e.g. "h5") to row/col
+  let highlightRow = -1, highlightCol = -1;
+  if (highlightSquare) {
+    highlightCol = highlightSquare.charCodeAt(0) - 97; // a=0, h=7
+    highlightRow = 8 - parseInt(highlightSquare[1]); // 1=7, 8=0
+    if (playerTurn === 'b') {
+      highlightRow = 7 - highlightRow;
+    }
+  }
+
   return (
     <div className="grid grid-cols-8 border-2 border-border rounded-lg overflow-hidden" style={{ aspectRatio: '1' }}>
       {board.flatMap((row, rowIdx) =>
         row.map((piece, colIdx) => {
           const isLight = (rowIdx + colIdx) % 2 === 0;
+          const isHighlighted = rowIdx === highlightRow && colIdx === highlightCol;
           return (
             <div
               key={`${rowIdx}-${colIdx}`}
-              className={`flex items-center justify-center text-3xl md:text-4xl lg:text-5xl ${isLight ? 'bg-board-light' : 'bg-board-dark'}`}
+              className={`flex items-center justify-center text-3xl md:text-4xl lg:text-5xl relative ${isLight ? 'bg-board-light' : 'bg-board-dark'}`}
               style={{ aspectRatio: '1' }}
             >
-              {piece && <span className={piece === piece.toUpperCase() ? 'text-white drop-shadow-md' : 'text-gray-900 drop-shadow-md'}>{pieceSymbols[piece]}</span>}
+              {isHighlighted && (
+                <div className="absolute inset-0 bg-yellow-400/50 animate-pulse rounded-sm" />
+              )}
+              {piece && <span className={`relative z-10 ${piece === piece.toUpperCase() ? 'text-white drop-shadow-md' : 'text-gray-900 drop-shadow-md'}`}>{pieceSymbols[piece]}</span>}
             </div>
           );
         })
@@ -71,6 +86,7 @@ export function ChessBoardPanel({
   onShowSolution,
   showSolution,
   playerTurn,
+  highlightSquare,
 }: ChessBoardPanelProps) {
   const progress = totalMoves > 0 ? (currentMoveIndex / totalMoves) * 100 : 0;
 
@@ -88,7 +104,7 @@ export function ChessBoardPanel({
       </div>
 
       <motion.div className={`relative rounded-lg overflow-hidden shadow-card flex-1 min-h-0 ${isFailed ? 'animate-shake' : ''}`}>
-        <SimpleChessboard fen={fen} playerTurn={playerTurn} />
+        <SimpleChessboard fen={fen} playerTurn={playerTurn} highlightSquare={highlightSquare} />
         {isSolved && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="absolute inset-0 bg-success/20 flex items-center justify-center pointer-events-none">
             <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="bg-success text-success-foreground px-4 py-2 rounded-full font-bold text-base">🎉 Puzzle Résolu !</motion.div>
