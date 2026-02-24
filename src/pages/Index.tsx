@@ -21,9 +21,7 @@ const PUZZLE = {
   playerBlack: "Caruana", 
   year: "2026",
   hints: [
-    "Cherchez une attaque directe sur le roi noir.",
-    "La case f7 n'est protégée que par le roi...",
-    "La dame peut capturer le pion f7 avec échec et mat : Dxf7#"
+    "Cherchez une attaque directe sur le roi noir."
   ]
 };
 
@@ -106,7 +104,7 @@ const Index = () => {
   };
 
   const useHighlight = () => {
-    if (!isHighlightUsed && hintsUsed > 0) {
+    if (!isHighlightUsed) {
       const currentMove = PUZZLE.solution[currentMoveIndex];
       const fromSquare = currentMove.slice(0, 2);
       setHighlightSquare(fromSquare);
